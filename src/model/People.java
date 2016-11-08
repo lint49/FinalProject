@@ -2,18 +2,27 @@ package model;
 
 public class People {
 
-	String firstName;
-	String lastName;
-	Address address;
-	String phone;
-	String userName;
-	String password;
+	private String firstName;
+	private String lastName;
+	private String stNum;
+	private String stName;
+	private String city;
+	private String state;
+	private String zip;
+	private String phone;
+	private String userName;
+	private String password;
 
-	public People(String firstName, String lastName, Address address, String phone, String userName, String password) {
+	public People(String firstName, String lastName, String stNum, String stName, String city, String state, String zip,
+			String phone, String userName, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.address = address;
+		this.stNum = stNum;
+		this.stName = stName;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
 		this.phone = phone;
 		this.userName = userName;
 		this.password = password;
@@ -35,12 +44,44 @@ public class People {
 		this.lastName = lastName;
 	}
 
-	public Address getAddress() {
-		return address;
+	public String getStNum() {
+		return stNum;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setStNum(String stNum) {
+		this.stNum = stNum;
+	}
+
+	public String getStName() {
+		return stName;
+	}
+
+	public void setStName(String stName) {
+		this.stName = stName;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 	public String getPhone() {
@@ -69,8 +110,9 @@ public class People {
 
 	@Override
 	public String toString() {
-		return "People [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phone=" + phone
-				+ ", userName=" + userName + ", password=" + password + "]";
+		return "[firstName=" + firstName + ", lastName=" + lastName + ", stNum=" + stNum + ", stName=" + stName
+				+ ", city=" + city + ", state=" + state + ", zip=" + zip + ", phone=" + phone + ", userName=" + userName
+				+ ", password=" + password + "]";
 	}
 
 }
