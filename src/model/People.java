@@ -67,4 +67,10 @@ public class People {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "People [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", phone=" + phone
+				+ ", userName=" + userName + ", password=" + password + "]";
+	}
+
 }
