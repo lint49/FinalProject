@@ -4,19 +4,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class OwnerBag{
+public class ManagerBag{
 	
-	private String password;
-	private Owner[] a;
+	private Manager[] a;
 	private int nElems;
 	
-	public OwnerBag(int maxSize){
-		a = new Owner[maxSize];
+	public ManagerBag(int maxSize){
+		a = new Manager[maxSize];
 		nElems = 0;
 	}
 	
-	public void add(Owner o){
-		a[nElems++] = o;
+	public void add(Manager m){
+		a[nElems++] = m;
 	}
 	
 	public void importData(String fileName) throws FileNotFoundException {
@@ -25,16 +24,14 @@ public class OwnerBag{
 		while (in.hasNextLine()){
 		String[] q = in.nextLine().split(" ");
 
-		Owner o = new Owner (q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]);
-		add(o);
-
-		
+		Manager m = new Manager (q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9], 
+								 Double.parseDouble(q[10]), q[11], q[12]);
+		add(m);
+	
 		}
 	}
-
-
 	
-	public Owner findByFirstName(String firstName){
+	public Manager findByFirstName(String firstName){
 		int i = -1;
 		for(i = 0; i < nElems; i++) {
 			if(a[i].getFirstName().equals(firstName)) {
@@ -49,7 +46,7 @@ public class OwnerBag{
 		}
 	}
 	
-	public Owner findByLastName(String LastName){
+	public Manager findByLastName(String LastName){
 		int i = -1;
 		for(i = 0; i < nElems; i++) {
 			if(a[i].getLastName().equals(LastName)) {
@@ -70,5 +67,4 @@ public class OwnerBag{
 		}
 		System.out.println();
 	}
-
 }

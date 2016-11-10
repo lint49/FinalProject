@@ -1,6 +1,6 @@
 package model;
 
-public class People {
+public abstract class People {
 
 	private String firstName;
 	private String lastName;
@@ -110,9 +110,9 @@ public class People {
 
 	@Override
 	public String toString() {
-		return "[firstName=" + firstName + ", lastName=" + lastName + ", stNum=" + stNum + ", stName=" + stName
+		return "firstName=" + firstName + ", lastName=" + lastName + ", stNum=" + stNum + ", stName=" + stName
 				+ ", city=" + city + ", state=" + state + ", zip=" + zip + ", phone=" + phone + ", userName=" + userName
-				+ ", password=" + password + "]";
+				+ ", password=" + password;
 	}
 
 }

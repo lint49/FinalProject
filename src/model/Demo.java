@@ -5,11 +5,18 @@ import java.io.FileNotFoundException;
 public class Demo {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		OwnerBag o = new OwnerBag(22);
-		o.importData("owner.txt");
 		
-		Owner a = o.findByLastName("Smith");
-		System.out.println(a.getPassword());
+		
+		CustomerBag c = new CustomerBag(22);
+		OwnerBag o = new OwnerBag(22);
+		ManagerBag m = new ManagerBag(22);
+		c.importData("Data/Customer.txt");
+		o.importData("Data/Owner.txt");
+		m.importData("Data/Manager.txt");
+
+		
+		
+
 		
 
 	}

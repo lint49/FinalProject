@@ -8,11 +8,6 @@ public class Owner extends People {
 		super(firstName, lastName, stNum, stName, city, state, zip, phone, userName, password);
 
 	}
-	
 
 	
-
-
-	
-
 }

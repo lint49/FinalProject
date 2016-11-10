@@ -39,4 +39,11 @@ public class Manager extends People {
 		this.shiftEnd = shiftEnd;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "salary=" + salary + ", shiftStart=" + shiftStart + ", shiftEnd=" + shiftEnd;
+	}
+	
+	
+
 }

@@ -4,19 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class OwnerBag{
-	
-	private String password;
-	private Owner[] a;
+public class CustomerBag{
+	private Customer[] a;
 	private int nElems;
 	
-	public OwnerBag(int maxSize){
-		a = new Owner[maxSize];
+	public CustomerBag(int maxSize){
+		a = new Customer[maxSize];
 		nElems = 0;
 	}
 	
-	public void add(Owner o){
-		a[nElems++] = o;
+	public void add(Customer c){
+		a[nElems++] = c;
 	}
 	
 	public void importData(String fileName) throws FileNotFoundException {
@@ -25,16 +23,13 @@ public class OwnerBag{
 		while (in.hasNextLine()){
 		String[] q = in.nextLine().split(" ");
 
-		Owner o = new Owner (q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]);
-		add(o);
-
-		
+		Customer c = new Customer (q[0], q[1], q[2], q[3], Integer.parseInt(q[4]), q[5], q[6]);
+		add(c);
+	
 		}
 	}
-
-
 	
-	public Owner findByFirstName(String firstName){
+	public Customer findByFirstName(String firstName){
 		int i = -1;
 		for(i = 0; i < nElems; i++) {
 			if(a[i].getFirstName().equals(firstName)) {
@@ -49,7 +44,7 @@ public class OwnerBag{
 		}
 	}
 	
-	public Owner findByLastName(String LastName){
+	public Customer findByLastName(String LastName){
 		int i = -1;
 		for(i = 0; i < nElems; i++) {
 			if(a[i].getLastName().equals(LastName)) {
@@ -70,5 +65,4 @@ public class OwnerBag{
 		}
 		System.out.println();
 	}
-
 }
