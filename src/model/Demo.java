@@ -13,6 +13,9 @@ public class Demo {
 		c.importData("Data/Customer.txt");
 		o.importData("Data/Owner.txt");
 		m.importData("Data/Manager.txt");
+		
+		Owner qq = o.findByFirstName("John");
+		System.out.println(qq.getPassword());
 
 		
 		
