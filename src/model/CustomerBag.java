@@ -23,7 +23,7 @@ public class CustomerBag{
 		while (in.hasNextLine()){
 		String[] q = in.nextLine().split(" ");
 
-		Customer c = new Customer (q[0], q[1], q[2], q[3], Integer.parseInt(q[4]), q[5], q[6]);
+		Customer c = new Customer (q[0], q[1], q[2], q[3], Integer.parseInt(q[4]));
 		add(c);
 	
 		}

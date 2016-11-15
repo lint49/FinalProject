@@ -24,7 +24,7 @@ public class OwnerBag {
 		while (in.hasNextLine()) {
 			String[] q = in.nextLine().split(" ");
 
-			Owner o = new Owner(q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9]);
+			Owner o = new Owner(q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7]);
 			add(o);
 
 		}

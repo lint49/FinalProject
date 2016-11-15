@@ -15,7 +15,7 @@ public class Demo {
 		m.importData("Data/Manager.txt");
 		
 		Owner qq = o.findByFirstName("John");
-		System.out.println(qq.getPassword());
+		System.out.println(qq.getPhone());
 
 		
 		

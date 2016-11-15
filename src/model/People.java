@@ -10,11 +10,10 @@ public abstract class People {
 	private String state;
 	private String zip;
 	private String phone;
-	private String userName;
-	private String password;
+
 
 	public People(String firstName, String lastName, String stNum, String stName, String city, String state, String zip,
-			String phone, String userName, String password) {
+			String phone) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -24,8 +23,7 @@ public abstract class People {
 		this.state = state;
 		this.zip = zip;
 		this.phone = phone;
-		this.userName = userName;
-		this.password = password;
+
 	}
 
 	public String getFirstName() {
@@ -92,27 +90,11 @@ public abstract class People {
 		this.phone = phone;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	@Override
 	public String toString() {
 		return "firstName=" + firstName + ", lastName=" + lastName + ", stNum=" + stNum + ", stName=" + stName
-				+ ", city=" + city + ", state=" + state + ", zip=" + zip + ", phone=" + phone + ", userName=" + userName
-				+ ", password=" + password;
+				+ ", city=" + city + ", state=" + state + ", zip=" + zip + ", phone=" + phone;
 	}
 
 }

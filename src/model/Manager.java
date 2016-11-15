@@ -7,9 +7,9 @@ public class Manager extends People {
 	private String shiftEnd;
 
 	public Manager(String firstName, String lastName, String stNum, String stName, String city, String state,
-			String zip, String phone, String userName, String password, double salary, String shiftStart,
+			String zip, String phone, double salary, String shiftStart,
 			String shiftEnd) {
-		super(firstName, lastName, stNum, stName, city, state, zip, phone, userName, password);
+		super(firstName, lastName, stNum, stName, city, state, zip, phone);
 		this.salary = salary;
 		this.shiftStart = shiftStart;
 		this.shiftEnd = shiftEnd;

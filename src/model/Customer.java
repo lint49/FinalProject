@@ -7,19 +7,14 @@ public class Customer {
 	private String gender;
 	private String musicType;
 	private int age;
-	private String userName;
-	private String password;
 
-	public Customer(String firstName, String lastName, String gender, String musicType, int age,
-			String userName, String password) {
+	public Customer(String firstName, String lastName, String gender, String musicType, int age) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.gender = gender;
 		this.musicType = musicType;
 		this.age = age;
-		this.userName = userName;
-		this.password = password;
 	}
 
 	public String getFirstName() {
@@ -62,28 +57,10 @@ public class Customer {
 		this.age = age;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	@Override
 	public String toString() {
 		return "Customer [firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender + ", musicType="
-				+ musicType + ", age=" + age + ", userName=" + userName + ", password=" + password + "]";
+				+ musicType + ", age=" + age + "]";
 	}
-	
-	
 
 }

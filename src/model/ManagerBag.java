@@ -24,8 +24,8 @@ public class ManagerBag{
 		while (in.hasNextLine()){
 		String[] q = in.nextLine().split(" ");
 
-		Manager m = new Manager (q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], q[8], q[9], 
-								 Double.parseDouble(q[10]), q[11], q[12]);
+		Manager m = new Manager (q[0], q[1], q[2], q[3], q[4], q[5], q[6], q[7], 
+								 Double.parseDouble(q[8]), q[9], q[10]);
 		add(m);
 	
 		}
