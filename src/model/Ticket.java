@@ -1,16 +1,23 @@
 package model;
 
-public class Ticket {
+import java.io.Serializable;
 
+public class Ticket implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String date;
-	private double price;
+	private double price = 0.0;
 
 	public Ticket(String name, String date, double price) {
 		super();
 		this.name = name;
 		this.date = date;
 		this.price = price;
+	}
+
+	public Ticket() {
+
 	}
 
 	public String getName() {
@@ -42,4 +49,5 @@ public class Ticket {
 		return "Ticket [name=" + name + ", date=" + date + ", price=" + price + "]";
 	}
 
+	
 }

@@ -2,12 +2,12 @@ package model;
 
 public class Manager extends People {
 
-	private double salary;
+	private String salary;
 	private String shiftStart;
 	private String shiftEnd;
 
 	public Manager(String firstName, String lastName, String stNum, String stName, String city, String state,
-			String zip, String phone, double salary, String shiftStart,
+			String zip, String phone, String salary, String shiftStart,
 			String shiftEnd) {
 		super(firstName, lastName, stNum, stName, city, state, zip, phone);
 		this.salary = salary;
@@ -15,11 +15,11 @@ public class Manager extends People {
 		this.shiftEnd = shiftEnd;
 	}
 
-	public double getSalary() {
+	public String getSalary() {
 		return salary;
 	}
 
-	public void setSalary(double salary) {
+	public void setSalary(String salary) {
 		this.salary = salary;
 	}
 

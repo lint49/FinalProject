@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.KeyEvent;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -47,7 +49,9 @@ public class LoginView {
 
 		bottomPane.setAlignment(Pos.BASELINE_CENTER);
 		bottomPane.getChildren().addAll(password, passwordText);
-
+		
+		loginButton.setDefaultButton(true);
+		
 		loginButton.setOnAction(event -> {
 
 			if (userNameText.getText().equals("admin") && passwordText.getText().equals("0")) {

@@ -16,7 +16,13 @@ public class Demo {
 		
 		Owner qq = o.findByFirstName("John");
 		System.out.println(qq.getPhone());
+		//o.showBag();
+		
+		TicketBag t = new TicketBag(22);
+		t.importData("Data/Ticket.txt");
+		t.showBag();
 
+		
 		
 		
 
