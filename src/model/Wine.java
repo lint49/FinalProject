@@ -1,28 +1,35 @@
 package model;
 
-public class Wine {
+import java.io.Serializable;
 
-	private int wineInStock;
+public class Wine implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private String wineName;
 	private String wineType;
 	private String region;
 	private int alcoholPercentage;
 	private double price;
 
-	public Wine(int wineInStock, String wineType, String region, int alcoholPercentage, double price) {
+	public Wine(String wineName, String wineType, String region, int alcoholPercentage, double price) {
 		super();
-		this.wineInStock = wineInStock;
+		this.wineName = wineName;
 		this.wineType = wineType;
 		this.region = region;
 		this.alcoholPercentage = alcoholPercentage;
 		this.price = price;
 	}
 
-	public int getWineInStock() {
-		return wineInStock;
+	public Wine() {
+
 	}
 
-	public void setWineInStock(int wineInStock) {
-		this.wineInStock = wineInStock;
+	public String getWineName() {
+		return wineName;
+	}
+
+	public void setWineName(String wineName) {
+		this.wineName = wineName;
 	}
 
 	public String getWineType() {
@@ -59,8 +66,8 @@ public class Wine {
 
 	@Override
 	public String toString() {
-		return "Wine [wineInStock=" + wineInStock + ", wineType=" + wineType + ", region=" + region
-				+ ", alcoholPercentage=" + alcoholPercentage + ", price=" + price + "]";
+		return "Wine [wineName=" + wineName + ", wineType=" + wineType + ", region=" + region + ", alcoholPercentage="
+				+ alcoholPercentage + ", price=" + price + "]";
 	}
 
 }

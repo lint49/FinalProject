@@ -4,6 +4,7 @@ import java.util.EventObject;
 
 public class TicketEventObject extends EventObject {
 
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String date;
 	private double price;

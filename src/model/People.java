@@ -1,7 +1,10 @@
 package model;
 
-public abstract class People {
+import java.io.Serializable;
 
+public abstract class People implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String firstName;
 	private String lastName;
 	private String stNum;
@@ -11,6 +14,9 @@ public abstract class People {
 	private String zip;
 	private String phone;
 
+	public People() {
+
+	}
 
 	public People(String firstName, String lastName, String stNum, String stName, String city, String state, String zip,
 			String phone) {
@@ -89,7 +95,6 @@ public abstract class People {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 
 	@Override
 	public String toString() {

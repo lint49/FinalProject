@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Ticket implements Serializable{
+public class Ticket implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -25,7 +25,9 @@ public class Ticket implements Serializable{
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if (name != null) {
+			this.name = name;
+		}
 	}
 
 	public String getDate() {
@@ -33,7 +35,9 @@ public class Ticket implements Serializable{
 	}
 
 	public void setDate(String date) {
-		this.date = date;
+		if (date != null) {
+			this.date = date;
+		}
 	}
 
 	public double getPrice() {
@@ -41,7 +45,9 @@ public class Ticket implements Serializable{
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		if (price > 0) {
+			this.price = price;
+		}
 	}
 
 	@Override
@@ -49,5 +55,4 @@ public class Ticket implements Serializable{
 		return "Ticket [name=" + name + ", date=" + date + ", price=" + price + "]";
 	}
 
-	
 }

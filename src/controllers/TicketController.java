@@ -1,7 +1,5 @@
 package controllers;
 
-import java.io.IOException;
-
 import model.Ticket;
 import model.TicketBag;
 import model.TicketEventListener;
@@ -17,28 +15,18 @@ public class TicketController {
 			@Override
 			public void ticketBtnClicked(TicketEventObject ev) {
 
+				TicketBag t = new TicketBag(100);
 				model.setName(ev.getName());
 				model.setDate(ev.getDate());
 				model.setPrice(ev.getPrice());
 
-				TicketBag t = new TicketBag(22);
-				t.add(model);
-				t.saveTicket();
-				
-				try {
-					t.load();
-				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				System.out.println(model);
+				if (ev.getName() != null) {
+					view.comboTicket(model.getName());
 				}
 
-				System.out.println(model);
-				
-				view.comboTicket(model.getName() +" -" + model.getDate() + " \n$" + model.getPrice());
-				
-				
-				
-				
+				t.add(model);
+				t.saveTicket();
 			}
 
 		});

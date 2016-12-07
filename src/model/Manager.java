@@ -1,18 +1,24 @@
 package model;
 
-public class Manager extends People {
+import java.io.Serializable;
 
+public class Manager extends People implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String salary;
 	private String shiftStart;
 	private String shiftEnd;
 
 	public Manager(String firstName, String lastName, String stNum, String stName, String city, String state,
-			String zip, String phone, String salary, String shiftStart,
-			String shiftEnd) {
+			String zip, String phone, String salary, String shiftStart, String shiftEnd) {
 		super(firstName, lastName, stNum, stName, city, state, zip, phone);
 		this.salary = salary;
 		this.shiftStart = shiftStart;
 		this.shiftEnd = shiftEnd;
+	}
+
+	public Manager() {
+
 	}
 
 	public String getSalary() {
@@ -43,7 +49,5 @@ public class Manager extends People {
 	public String toString() {
 		return super.toString() + "salary=" + salary + ", shiftStart=" + shiftStart + ", shiftEnd=" + shiftEnd;
 	}
-	
-	
 
 }

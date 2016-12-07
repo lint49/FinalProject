@@ -68,7 +68,7 @@ public class TicketBag {
 			return a[i];
 		}
 	}
-
+	
 	public void showBag() {
 		for (int i = 0; i < nElems; i++) {
 			System.out.println(a[i]);

@@ -1,24 +1,26 @@
 package view;
 
+import java.util.Optional;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
+import model.ManagerEventListener;
+import model.ManagerEventObject;
 import model.TicketEventListener;
 import model.TicketEventObject;
+import model.WineEventListener;
+import model.WineEventObject;
 
 public class OwnerView {
+
 	private LoginView login;
 	// for the left -- ticket
 	private Label ticketNameLbl;
@@ -27,7 +29,6 @@ public class OwnerView {
 	private TextField ticketDateField;
 	private Label ticketPriceLbl;
 	private TextField ticketPriceField;
-
 	private Button ticketBtn;
 	ComboBox<String> tickets;
 
@@ -42,6 +43,8 @@ public class OwnerView {
 	private TextField alcoholPercentageField;
 	private Label winePriceLbl;
 	private TextField winetPriceField;
+	ComboBox<String> wineTypes;
+	ComboBox<String> wines;
 
 	private Button wineBtn;
 
@@ -69,12 +72,37 @@ public class OwnerView {
 	private Label managerEndLbl;
 	private TextField managerEndField;
 
-	private TextField outDate;
-	private TextField outPrice;
-
 	ComboBox<String> states;
+	ComboBox<String> names;
 
 	private Button managerBtn;
+
+	// manager output
+	private Label outManagerFNameLbl;
+	private TextField outManagerFNameField;
+	private Label outManagerLNameLbl;
+	private TextField outManagerLNameField;
+	private Label outManagerStNumLbl;
+	private TextField outManagerStNumField;
+	private Label outManagerStLbl;
+	private TextField outManagerStField;
+	private Label outManagerCityLbl;
+	private TextField outManagerCityField;
+	private Label outManagerStateLbl;
+	private TextField outManagerStateField;
+	private Label outManagerZipLbl;
+	private TextField outManagerZipField;
+	private Label outManagerPhoneLbl;
+	private TextField outManagerPhoneField;
+	private Label outManagerPayLbl;
+	private TextField outManagerPayField;
+	private Label outManagerStartLbl;
+	private TextField outManagerStartField;
+	private Label outManagerEndLbl;
+	private TextField outManagerEndField;
+
+	private TextField enterName;
+	private Button find;
 
 	// button to exit to login
 	private Button esc;
@@ -83,6 +111,8 @@ public class OwnerView {
 	private VBox leftPane;
 	private VBox rightPane;
 	private VBox right2Pane;
+	private VBox right3Pane;
+	private VBox right4Pane;
 
 	private HBox pane;
 
@@ -90,6 +120,8 @@ public class OwnerView {
 	private Stage stage;
 
 	private TicketEventListener ticketBtnListener;
+	private WineEventListener wineBtnListener;
+	private ManagerEventListener managerBtnListener;
 
 	public OwnerView(Stage stage) {
 		this.stage = stage;
@@ -100,10 +132,6 @@ public class OwnerView {
 		dateLbl.setAlignment(Pos.CENTER_RIGHT);
 		ticketPriceLbl = new Label("Price: ");
 		ticketPriceLbl.setAlignment(Pos.CENTER_RIGHT);
-		outDate = new TextField();
-		outDate.setAlignment(Pos.CENTER_RIGHT);
-		outPrice = new TextField();
-		outPrice.setAlignment(Pos.CENTER_RIGHT);
 
 		ticketNameField = new TextField();
 		ticketDateField = new TextField();
@@ -118,72 +146,61 @@ public class OwnerView {
 			login = new LoginView(stage);
 		});
 
-		leftPane = new VBox(7);
+		leftPane = new VBox(8);
 
 		tickets = new ComboBox<>();
 
-		tickets.getItems().addAll("A - 10/20/2016 \n$60", "B - 10/22/2016 \n$65", "C - 10/26/2016 \n$85");
+		tickets.getItems().addAll();
 
-		leftPane.setMargin(ticketNameLbl, new Insets(20, 0, 0, 15));
+		leftPane.setMargin(tickets, new Insets(20, 0, 0, 15));
 		leftPane.setMargin(ticketNameField, new Insets(0, 0, 0, 15));
-		leftPane.setMargin(outDate, new Insets(20, 0, 0, 15));
-		leftPane.setMargin(outPrice, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(dateLbl, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketDateField, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketPriceLbl, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketPriceField, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketBtn, new Insets(0, 0, 0, 50));
-		leftPane.setMargin(tickets, new Insets(0, 0, 0, 50));
 
 		leftPane.setAlignment(Pos.BASELINE_LEFT);
-		leftPane.getChildren().addAll(ticketNameLbl, ticketNameField, dateLbl, ticketDateField, ticketPriceLbl,
-				ticketPriceField, ticketBtn, tickets);
+		leftPane.getChildren().addAll(tickets, ticketNameLbl, ticketNameField, dateLbl, ticketDateField, ticketPriceLbl,
+				ticketPriceField, ticketBtn);
 
 		ticketBtn.setOnAction(event -> {
+
+			if (ticketNameField == null || ticketNameField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Name");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Name Is Empty");
+				dialog.setContentText("Please enter the name: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					ticketNameField.setText(result.get());
+				}
+			}
+
+			if (ticketDateField == null || ticketDateField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Date");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Date Is Empty");
+				dialog.setContentText("Please enter the Date: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					ticketDateField.setText(result.get());
+				}
+			}
+
 			String name = ticketNameField.getText();
 			String date = ticketDateField.getText();
 			double price = Double.parseDouble(ticketPriceField.getText());
 			TicketEventObject ev = new TicketEventObject(this, name, date, price);
+
 			if (ticketBtnListener != null) {
 				ticketBtnListener.ticketBtnClicked(ev);
-
-				if (ticketNameField == null || ticketNameField.getText().trim().isEmpty()) {
-					Alert emptyName = new Alert(Alert.AlertType.WARNING, "Warning", ButtonType.OK);
-					emptyName.setContentText("Ticket name is EMPTY");
-					emptyName.initModality(Modality.APPLICATION_MODAL);
-					emptyName.showAndWait();
-					if (emptyName.getResult() == ButtonType.OK) {
-						emptyName.close();
-						ticketNameField.requestFocus();
-					}
-				}
-
-				if (ticketDateField == null || ticketDateField.getText().trim().isEmpty()) {
-					Alert emptyDate = new Alert(Alert.AlertType.WARNING, "Warning", ButtonType.OK);
-					emptyDate.setContentText("Date Field is EMPTY");
-					emptyDate.initModality(Modality.APPLICATION_MODAL);
-					emptyDate.showAndWait();
-					if (emptyDate.getResult() == ButtonType.OK) {
-						emptyDate.close();
-						ticketNameField.requestFocus();
-					}
-				}
-
-				if (ticketPriceField == null || ticketPriceField.getText().trim().isEmpty()) {
-					Alert emptyPrice = new Alert(Alert.AlertType.WARNING, "Warning", ButtonType.OK);
-					emptyPrice.setContentText("Price Field is EMPTY");
-					emptyPrice.initModality(Modality.APPLICATION_MODAL);
-					emptyPrice.showAndWait();
-					if (emptyPrice.getResult() == ButtonType.OK) {
-						emptyPrice.close();
-						ticketNameField.requestFocus();
-					}
-				}
 			}
 		});
 
-		////////////////////////////////////// right pane for wine
-		////////////////////////////////////// ////////////////////////////////////////////////
+		// right pane for wine
 
 		wineNameLbl = new Label("Wine Name: ");
 		wineNameLbl.setAlignment(Pos.CENTER_RIGHT);
@@ -197,23 +214,71 @@ public class OwnerView {
 		winePriceLbl.setAlignment(Pos.CENTER_RIGHT);
 
 		wineNameField = new TextField();
-		wineTypeField = new TextField();
+		// wineTypeField = new TextField();
 		regionField = new TextField();
 		alcoholPercentageField = new TextField();
 		winetPriceField = new TextField();
 
+		wineTypes = new ComboBox<>();
+		wineTypes.getItems().addAll("", "RIESLING", "CHARDONNAY", "SYRAH", "MERLOT", "PINOT NOIR");
+
+		wines = new ComboBox<>();
+
 		wineBtn = new Button("Add Wine");
 
-		rightPane.setMargin(wineNameLbl, new Insets(20, 0, 0, 0));
+		alcoholPercentageField.setText("0");
+		winetPriceField.setText("0.0");
+
+		rightPane.setMargin(wines, new Insets(20, 0, 0, 0));
 		rightPane.setMargin(wineBtn, new Insets(0, 0, 0, 35));
+		// rightPane.setMargin(wines, new Insets(0, 0, 0, 35));
 
-		rightPane = new VBox(7);
+		rightPane = new VBox(8);
+
 		rightPane.setAlignment(Pos.BASELINE_LEFT);
-		rightPane.getChildren().addAll(wineNameLbl, wineNameField, wineTypeLbl, wineTypeField, regionLbl, regionField,
-				alcoholPercentageLbl, alcoholPercentageField, winePriceLbl, winetPriceField, wineBtn);
+		rightPane.getChildren().addAll(wines, wineNameLbl, wineNameField, wineTypeLbl, wineTypes, regionLbl,
+				regionField, alcoholPercentageLbl, alcoholPercentageField, winePriceLbl, winetPriceField, wineBtn);
 
-		/////////////////////////////////////// pane for adding manager
-		/////////////////////////////////////// ///////////////////////////////////////////
+		wineBtn.setOnAction(event -> {
+
+			if (wineNameField == null || wineNameField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Name");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Wine Name Is Empty");
+				dialog.setContentText("Please enter the wine name: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					wineNameField.setText(result.get());
+				}
+			}
+
+			if (regionField == null || regionField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Region");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Region field Is Empty");
+				dialog.setContentText("Please enter the region: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					regionField.setText(result.get());
+				}
+			}
+
+			String wineName = wineNameField.getText();
+			String wineType = wineTypes.getValue();
+			String region = regionField.getText();
+			int alcoholPercentage = Integer.parseInt(alcoholPercentageField.getText());
+			double price = Double.parseDouble(winetPriceField.getText());
+			WineEventObject ev = new WineEventObject(this, wineName, wineType, region, alcoholPercentage, price);
+
+			if (wineBtnListener != null) {
+				wineBtnListener.wineBtnClicked(ev);
+			}
+
+		});
+
+		// pane for adding manager
 		managerFNameLbl = new Label("First Name: ");
 		managerFNameLbl.setAlignment(Pos.CENTER_RIGHT);
 		managerLNameLbl = new Label("Last Name: ");
@@ -249,6 +314,8 @@ public class OwnerView {
 		managerStartField = new TextField();
 		managerEndField = new TextField();
 
+		names = new ComboBox<>();
+
 		states = new ComboBox<>();
 		states.getItems().addAll("", "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
 				"Connecticut", "Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
@@ -260,24 +327,203 @@ public class OwnerView {
 
 		managerBtn = new Button("Add Manager");
 
-		right2Pane.setMargin(managerFNameLbl, new Insets(20, 0, 0, 0));
+		right2Pane.setMargin(names, new Insets(20, 0, 0, 0));
 		right2Pane.setMargin(managerBtn, new Insets(0, 0, 0, 35));
+		// right2Pane.setMargin(names, new Insets(0, 0, 0, 35));
 
-		right2Pane = new VBox(7);
+		right2Pane = new VBox(8);
 		right2Pane.setAlignment(Pos.BASELINE_LEFT);
-		right2Pane.getChildren().addAll(managerFNameLbl, managerFNameField, managerLNameLbl, managerLNameField,
+		right2Pane.getChildren().addAll(names, managerFNameLbl, managerFNameField, managerLNameLbl, managerLNameField,
 				managerStNumLbl, managerStNumField, managerStLbl, managerStField, managerCityLbl, managerCityField,
 				managerStateLbl, states, managerZipLbl, managerZipField, managerPhoneLbl, managerPhoneField,
 				managerPayLbl, managerPayField, managerStartLbl, managerStartField, managerEndLbl, managerEndField,
-				managerBtn, esc);
+				managerBtn);
+
+		// addManager Button
+		managerBtn.setOnAction(event -> {
+
+			if (managerFNameField == null || managerFNameField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("First Name");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("First Name field Is Empty");
+				dialog.setContentText("Please enter the first name: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					managerFNameField.setText(result.get());
+				}
+			}
+
+			if (managerLNameField == null || managerLNameField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Last Name");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Last name field Is Empty");
+				dialog.setContentText("Please enter the last name: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					managerLNameField.setText(result.get());
+				}
+			}
+
+			if (managerPhoneField == null || managerPhoneField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Phone");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Phone field Is Empty");
+				dialog.setContentText("Please enter the phone number: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					managerPhoneField.setText(result.get());
+				}
+			}
+
+			if (managerPayField == null || managerPayField.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Salary");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Salary field Is Empty");
+				dialog.setContentText("Please enter the salary: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					managerPayField.setText(result.get());
+				}
+			}
+
+			String firstName = managerFNameField.getText();
+			String lastName = managerLNameField.getText();
+			String stNum = managerStNumField.getText();
+			String stName = managerStField.getText();
+			String city = managerCityField.getText();
+			String state = states.getValue();
+			String zip = managerZipField.getText();
+			String phone = managerPhoneField.getText();
+			String salary = managerPayField.getText();
+			String shiftStart = managerStartField.getText();
+			String shiftEnd = managerEndField.getText();
+
+			ManagerEventObject ev = new ManagerEventObject(this, firstName, lastName, stNum, stName, city, state, zip,
+					phone, salary, shiftStart, shiftEnd);
+
+			if (managerBtnListener != null) {
+				managerBtnListener.managerBtnClicked(ev);
+			}
+
+			managerFNameField.clear();
+			managerLNameField.clear();
+			managerStNumField.clear();
+			managerStField.clear();
+			managerCityField.clear();
+			managerZipField.clear();
+			managerPhoneField.clear();
+			managerPayField.clear();
+			managerStartField.clear();
+			managerEndField.clear();
+
+		});
+
+		// manager output
+		outManagerFNameLbl = new Label("First Name: ");
+		outManagerFNameLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerLNameLbl = new Label("Last Name: ");
+		outManagerLNameLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerStNumLbl = new Label("Street Number: ");
+		outManagerStNumLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerStLbl = new Label("Street Name: ");
+		outManagerStLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerCityLbl = new Label("City: ");
+		outManagerCityLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerStateLbl = new Label("State: ");
+		outManagerStateLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerZipLbl = new Label("Zip Code: ");
+		outManagerZipLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerPhoneLbl = new Label("Phone: ");
+		outManagerPhoneLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerPayLbl = new Label("Salary: ");
+		outManagerPayLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerStartLbl = new Label("Shift Start: ");
+		outManagerStartLbl.setAlignment(Pos.CENTER_RIGHT);
+		outManagerEndLbl = new Label("Shift End: ");
+		outManagerEndLbl.setAlignment(Pos.CENTER_RIGHT);
+
+		outManagerFNameField = new TextField();
+		outManagerFNameField.setEditable(false);
+		outManagerLNameField = new TextField();
+		outManagerLNameField.setEditable(false);
+		outManagerStNumField = new TextField();
+		outManagerStNumField.setEditable(false);
+		outManagerStField = new TextField();
+		outManagerStField.setEditable(false);
+		outManagerCityField = new TextField();
+		outManagerCityField.setEditable(false);
+		outManagerStateField = new TextField();
+		outManagerStateField.setEditable(false);
+		outManagerZipField = new TextField();
+		outManagerZipField.setEditable(false);
+		outManagerPhoneField = new TextField();
+		outManagerPhoneField.setEditable(false);
+		outManagerPayField = new TextField();
+		outManagerPayField.setEditable(false);
+		outManagerStartField = new TextField();
+		outManagerStartField.setEditable(false);
+		outManagerEndField = new TextField();
+		outManagerEndField.setEditable(false);
+		enterName = new TextField();
+		enterName.setPromptText("Enter First Name");
+
+		find = new Button("Find");
+
+		right2Pane.setMargin(enterName, new Insets(20, 0, 0, 0));
+
+		right3Pane = new VBox(8);
+		right3Pane.setAlignment(Pos.BASELINE_LEFT);
+		right3Pane.getChildren().addAll(enterName, outManagerFNameLbl, outManagerFNameField, outManagerLNameLbl,
+				outManagerLNameField, outManagerStNumLbl, outManagerStNumField, outManagerStLbl, outManagerStField,
+				outManagerCityLbl, outManagerCityField, outManagerStateLbl, outManagerStateField, outManagerZipLbl,
+				outManagerZipField, outManagerPhoneLbl, outManagerPhoneField, outManagerPayLbl, outManagerPayField,
+				outManagerStartLbl, outManagerStartField, outManagerEndLbl, outManagerEndField);
+
+		right4Pane = new VBox(8);
+		right4Pane.setAlignment(Pos.BASELINE_LEFT);
+		right4Pane.setMargin(find, new Insets(20, 0, 0, 0));
+		right4Pane.getChildren().addAll(find, esc);
+
+		find.setOnAction(event -> {
+			if (enterName == null || enterName.getText().trim().isEmpty()) {
+				TextInputDialog dialog = new TextInputDialog("Enter Name");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Enter Name field Is Empty");
+				dialog.setContentText("Please enter the first name: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					enterName.setText(result.get());
+				}
+			}
+
+			ManagerEventObject ev = new ManagerEventObject(this);
+
+			if (managerBtnListener != null) {
+				managerBtnListener.findBtnClicked(ev);
+			}
+
+		});
 
 		pane = new HBox(30);
 
-		pane.getChildren().addAll(leftPane, rightPane, right2Pane);
-		stage.setScene(new Scene(pane, 600, 700));
+		pane.getChildren().addAll(leftPane, rightPane, right2Pane, right3Pane, right4Pane);
+		stage.setScene(new Scene(pane, 800, 800));
 		stage.setTitle("Owner's View");
 		stage.show();
 
+	}
+
+	public void setManagerBtnListener(ManagerEventListener managerBtnListener) {
+		this.managerBtnListener = managerBtnListener;
+	}
+
+	public void setWineBtnListener(WineEventListener wineBtnListener) {
+		this.wineBtnListener = wineBtnListener;
 	}
 
 	public void setTicketBtnListener(TicketEventListener ticketBtnListener) {
@@ -289,4 +535,71 @@ public class OwnerView {
 
 	}
 
+	public void comboWine(String name) {
+		wines.getItems().add(name);
+	}
+
+	public void comboNames(String name) {
+		names.getItems().add(name);
+	}
+
+	public void setManagerFName(String fName) {
+		outManagerFNameField.clear();
+		outManagerFNameField.setText(fName);
+	}
+
+	public void setManagerLName(String lName) {
+		outManagerLNameField.clear();
+		outManagerLNameField.setText(lName);
+	}
+
+	public void setManagerStNum(String stNum) {
+		outManagerStNumField.clear();
+		outManagerStNumField.setText(stNum);
+	}
+
+	public void setManagerStName(String stName) {
+		outManagerStField.clear();
+		outManagerStField.setText(stName);
+	}
+
+	public void setManagerCity(String city) {
+		outManagerCityField.clear();
+		outManagerCityField.setText(city);
+	}
+
+	public void setManagerState(String state) {
+		outManagerStateField.clear();
+		outManagerStateField.setText(state);
+	}
+
+	public void setManagerZip(String zip) {
+		outManagerZipField.clear();
+		outManagerZipField.setText(zip);
+	}
+
+	public void setManagerPhone(String phone) {
+		outManagerPhoneField.clear();
+		outManagerPhoneField.setText(phone);
+	}
+
+	public void setManagerStart(String start) {
+		outManagerStartField.clear();
+		outManagerStartField.setText(start);
+	}
+
+	public void setManagerPay(String pay) {
+		outManagerPayField.clear();
+		outManagerPayField.setText(pay);
+	}
+
+	public void setManagerEnd(String end) {
+		outManagerEndField.clear();
+		outManagerEndField.setText(end);
+	}
+
+	public String getName() {
+		return enterName.getText();
+
+	}
 }

@@ -1,7 +1,8 @@
 package view;
 
-import java.awt.event.KeyEvent;
-
+import controllers.ManagerController;
+import controllers.TicketController;
+import controllers.WineController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.Manager;
+import model.Ticket;
+import model.Wine;
 
 public class LoginView {
 
@@ -29,6 +33,7 @@ public class LoginView {
 	private ManagerView managerView;
 
 	public LoginView(Stage stage) {
+
 		userName = new Label("User Name:");
 		userName.setAlignment(Pos.CENTER_LEFT);
 
@@ -49,9 +54,9 @@ public class LoginView {
 
 		bottomPane.setAlignment(Pos.BASELINE_CENTER);
 		bottomPane.getChildren().addAll(password, passwordText);
-		
+
 		loginButton.setDefaultButton(true);
-		
+
 		loginButton.setOnAction(event -> {
 
 			if (userNameText.getText().equals("admin") && passwordText.getText().equals("0")) {
@@ -61,6 +66,15 @@ public class LoginView {
 			} else if (userNameText.getText().equals("owner") && passwordText.getText().equals("1")) {
 
 				ownerView = new OwnerView(stage);
+
+				Ticket model = new Ticket();
+				TicketController controller = new TicketController(model, ownerView);
+
+				Wine model2 = new Wine();
+				WineController controller2 = new WineController(model2, ownerView);
+				
+				Manager model3 = new Manager();
+				ManagerController controller3 = new ManagerController(model3, ownerView);
 
 			} else if (userNameText.getText().equals("manager") && passwordText.getText().equals("2")) {
 
