@@ -1,21 +1,32 @@
 package view;
 
 import java.util.Optional;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.cell.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import model.Manager;
 import model.ManagerEventListener;
 import model.ManagerEventObject;
+import model.Ticket;
 import model.TicketEventListener;
 import model.TicketEventObject;
+import model.Wine;
 import model.WineEventListener;
 import model.WineEventObject;
 
@@ -36,7 +47,6 @@ public class OwnerView {
 	private Label wineNameLbl;
 	private TextField wineNameField;
 	private Label wineTypeLbl;
-	private TextField wineTypeField;
 	private Label regionLbl;
 	private TextField regionField;
 	private Label alcoholPercentageLbl;
@@ -60,7 +70,6 @@ public class OwnerView {
 	private Label managerCityLbl;
 	private TextField managerCityField;
 	private Label managerStateLbl;
-	// private TextField managerStateField;
 	private Label managerZipLbl;
 	private TextField managerZipField;
 	private Label managerPhoneLbl;
@@ -69,8 +78,6 @@ public class OwnerView {
 	private TextField managerPayField;
 	private Label managerStartLbl;
 	private TextField managerStartField;
-	private Label managerEndLbl;
-	private TextField managerEndField;
 
 	ComboBox<String> states;
 	ComboBox<String> names;
@@ -98,8 +105,6 @@ public class OwnerView {
 	private TextField outManagerPayField;
 	private Label outManagerStartLbl;
 	private TextField outManagerStartField;
-	private Label outManagerEndLbl;
-	private TextField outManagerEndField;
 
 	private TextField enterName;
 	private Button find;
@@ -123,6 +128,40 @@ public class OwnerView {
 	private WineEventListener wineBtnListener;
 	private ManagerEventListener managerBtnListener;
 
+	// date picker
+	DatePicker dateStart = new DatePicker();
+	DatePicker ticketDatePicker = new DatePicker();
+
+	// wine table view
+	private final TableView<Wine> t3 = new TableView<>();
+
+	private final ObservableList<Wine> data3 = FXCollections.observableArrayList(
+
+			new Wine("Aaa", "RIESLING", "Frence", 12, 100), new Wine("Bbb", "SYRAH", "Frence", 12, 150),
+			new Wine("Ccc", "PINOT NOIR", "Frence", 12, 170));
+
+	// ticket table view
+	private final TableView<Ticket> t2 = new TableView<>();
+
+	private final ObservableList<Ticket> data2 = FXCollections.observableArrayList(
+
+			new Ticket("A", "2016-12-24", 60), new Ticket("B", "2016-12-25", 100), new Ticket("C", "2016-12-26", 50)
+
+	);
+
+	// manager table view
+	private final TableView<Manager> t1 = new TableView<>();
+
+	private final ObservableList<Manager> data = FXCollections.observableArrayList(
+
+			new Manager("John", "Doe", "100", "Main St", "Brendwood", "New York", "11221", "6311236666", "100000",
+					"2010-12-12"),
+
+			new Manager("Jane", "Doe", "100", "Main St", "Brendwood", "New York", "11221", "6311238888", "100000",
+					"2010-12-12")
+
+	);
+
 	public OwnerView(Stage stage) {
 		this.stage = stage;
 
@@ -134,9 +173,7 @@ public class OwnerView {
 		ticketPriceLbl.setAlignment(Pos.CENTER_RIGHT);
 
 		ticketNameField = new TextField();
-		ticketDateField = new TextField();
 		ticketPriceField = new TextField();
-
 		ticketPriceField.setText("0.0");
 
 		ticketBtn = new Button("Add Ticket");
@@ -155,14 +192,15 @@ public class OwnerView {
 		leftPane.setMargin(tickets, new Insets(20, 0, 0, 15));
 		leftPane.setMargin(ticketNameField, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(dateLbl, new Insets(0, 0, 0, 15));
-		leftPane.setMargin(ticketDateField, new Insets(0, 0, 0, 15));
+		leftPane.setMargin(ticketNameLbl, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketPriceLbl, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketPriceField, new Insets(0, 0, 0, 15));
+		leftPane.setMargin(ticketDatePicker, new Insets(0, 0, 0, 15));
 		leftPane.setMargin(ticketBtn, new Insets(0, 0, 0, 50));
 
 		leftPane.setAlignment(Pos.BASELINE_LEFT);
-		leftPane.getChildren().addAll(tickets, ticketNameLbl, ticketNameField, dateLbl, ticketDateField, ticketPriceLbl,
-				ticketPriceField, ticketBtn);
+		leftPane.getChildren().addAll(tickets, ticketNameLbl, ticketNameField, dateLbl, ticketDatePicker,
+				ticketPriceLbl, ticketPriceField, ticketBtn);
 
 		ticketBtn.setOnAction(event -> {
 
@@ -177,23 +215,14 @@ public class OwnerView {
 					ticketNameField.setText(result.get());
 				}
 			}
-
-			if (ticketDateField == null || ticketDateField.getText().trim().isEmpty()) {
-				TextInputDialog dialog = new TextInputDialog("Date");
-				dialog.setTitle("Text Input Dialog");
-				dialog.setHeaderText("Date Is Empty");
-				dialog.setContentText("Please enter the Date: ");
-
-				Optional<String> result = dialog.showAndWait();
-				if (result.isPresent()) {
-					ticketDateField.setText(result.get());
-				}
-			}
-
+			
 			String name = ticketNameField.getText();
-			String date = ticketDateField.getText();
+			String date = ticketDatePicker.getValue().toString();
 			double price = Double.parseDouble(ticketPriceField.getText());
 			TicketEventObject ev = new TicketEventObject(this, name, date, price);
+
+			data2.add(new Ticket(ticketNameField.getText(), ticketDatePicker.getValue().toString(),
+					Double.parseDouble(ticketPriceField.getText())));
 
 			if (ticketBtnListener != null) {
 				ticketBtnListener.ticketBtnClicked(ev);
@@ -214,7 +243,6 @@ public class OwnerView {
 		winePriceLbl.setAlignment(Pos.CENTER_RIGHT);
 
 		wineNameField = new TextField();
-		// wineTypeField = new TextField();
 		regionField = new TextField();
 		alcoholPercentageField = new TextField();
 		winetPriceField = new TextField();
@@ -231,7 +259,6 @@ public class OwnerView {
 
 		rightPane.setMargin(wines, new Insets(20, 0, 0, 0));
 		rightPane.setMargin(wineBtn, new Insets(0, 0, 0, 35));
-		// rightPane.setMargin(wines, new Insets(0, 0, 0, 35));
 
 		rightPane = new VBox(8);
 
@@ -269,8 +296,11 @@ public class OwnerView {
 			String wineType = wineTypes.getValue();
 			String region = regionField.getText();
 			int alcoholPercentage = Integer.parseInt(alcoholPercentageField.getText());
-			double price = Double.parseDouble(winetPriceField.getText());
-			WineEventObject ev = new WineEventObject(this, wineName, wineType, region, alcoholPercentage, price);
+			double winePrice = Double.parseDouble(winetPriceField.getText());
+			WineEventObject ev = new WineEventObject(this, wineName, wineType, region, alcoholPercentage, winePrice);
+
+			data3.add(new Wine(wineNameField.getText(), wineTypes.getValue(), regionField.getText(),
+					Integer.parseInt(alcoholPercentageField.getText()), Double.parseDouble(winetPriceField.getText())));
 
 			if (wineBtnListener != null) {
 				wineBtnListener.wineBtnClicked(ev);
@@ -297,22 +327,18 @@ public class OwnerView {
 		managerPhoneLbl.setAlignment(Pos.CENTER_RIGHT);
 		managerPayLbl = new Label("Salary: ");
 		managerPayLbl.setAlignment(Pos.CENTER_RIGHT);
-		managerStartLbl = new Label("Shift Start: ");
+		managerStartLbl = new Label("Date Start: ");
 		managerStartLbl.setAlignment(Pos.CENTER_RIGHT);
-		managerEndLbl = new Label("Shift End: ");
-		managerEndLbl.setAlignment(Pos.CENTER_RIGHT);
 
 		managerFNameField = new TextField();
 		managerLNameField = new TextField();
 		managerStNumField = new TextField();
 		managerStField = new TextField();
 		managerCityField = new TextField();
-		// managerStateField = new TextField();
 		managerZipField = new TextField();
 		managerPhoneField = new TextField();
 		managerPayField = new TextField();
 		managerStartField = new TextField();
-		managerEndField = new TextField();
 
 		names = new ComboBox<>();
 
@@ -329,15 +355,13 @@ public class OwnerView {
 
 		right2Pane.setMargin(names, new Insets(20, 0, 0, 0));
 		right2Pane.setMargin(managerBtn, new Insets(0, 0, 0, 35));
-		// right2Pane.setMargin(names, new Insets(0, 0, 0, 35));
 
 		right2Pane = new VBox(8);
 		right2Pane.setAlignment(Pos.BASELINE_LEFT);
 		right2Pane.getChildren().addAll(names, managerFNameLbl, managerFNameField, managerLNameLbl, managerLNameField,
 				managerStNumLbl, managerStNumField, managerStLbl, managerStField, managerCityLbl, managerCityField,
 				managerStateLbl, states, managerZipLbl, managerZipField, managerPhoneLbl, managerPhoneField,
-				managerPayLbl, managerPayField, managerStartLbl, managerStartField, managerEndLbl, managerEndField,
-				managerBtn);
+				managerPayLbl, managerPayField, managerStartLbl, dateStart, managerBtn);
 
 		// addManager Button
 		managerBtn.setOnAction(event -> {
@@ -399,11 +423,14 @@ public class OwnerView {
 			String zip = managerZipField.getText();
 			String phone = managerPhoneField.getText();
 			String salary = managerPayField.getText();
-			String shiftStart = managerStartField.getText();
-			String shiftEnd = managerEndField.getText();
+			String shiftStart = dateStart.getValue().toString();
 
 			ManagerEventObject ev = new ManagerEventObject(this, firstName, lastName, stNum, stName, city, state, zip,
-					phone, salary, shiftStart, shiftEnd);
+					phone, salary, shiftStart);
+
+			data.add(new Manager(managerFNameField.getText(), managerLNameField.getText(), managerStNumField.getText(),
+					managerStField.getText(), managerCityField.getText(), states.getValue(), managerZipField.getText(),
+					managerPhoneField.getText(), managerPayField.getText(), dateStart.getValue().toString()));
 
 			if (managerBtnListener != null) {
 				managerBtnListener.managerBtnClicked(ev);
@@ -418,7 +445,7 @@ public class OwnerView {
 			managerPhoneField.clear();
 			managerPayField.clear();
 			managerStartField.clear();
-			managerEndField.clear();
+			dateStart.getEditor().clear();
 
 		});
 
@@ -441,10 +468,8 @@ public class OwnerView {
 		outManagerPhoneLbl.setAlignment(Pos.CENTER_RIGHT);
 		outManagerPayLbl = new Label("Salary: ");
 		outManagerPayLbl.setAlignment(Pos.CENTER_RIGHT);
-		outManagerStartLbl = new Label("Shift Start: ");
+		outManagerStartLbl = new Label("Date Start: ");
 		outManagerStartLbl.setAlignment(Pos.CENTER_RIGHT);
-		outManagerEndLbl = new Label("Shift End: ");
-		outManagerEndLbl.setAlignment(Pos.CENTER_RIGHT);
 
 		outManagerFNameField = new TextField();
 		outManagerFNameField.setEditable(false);
@@ -466,8 +491,6 @@ public class OwnerView {
 		outManagerPayField.setEditable(false);
 		outManagerStartField = new TextField();
 		outManagerStartField.setEditable(false);
-		outManagerEndField = new TextField();
-		outManagerEndField.setEditable(false);
 		enterName = new TextField();
 		enterName.setPromptText("Enter First Name");
 
@@ -481,7 +504,7 @@ public class OwnerView {
 				outManagerLNameField, outManagerStNumLbl, outManagerStNumField, outManagerStLbl, outManagerStField,
 				outManagerCityLbl, outManagerCityField, outManagerStateLbl, outManagerStateField, outManagerZipLbl,
 				outManagerZipField, outManagerPhoneLbl, outManagerPhoneField, outManagerPayLbl, outManagerPayField,
-				outManagerStartLbl, outManagerStartField, outManagerEndLbl, outManagerEndField);
+				outManagerStartLbl, outManagerStartField);
 
 		right4Pane = new VBox(8);
 		right4Pane.setAlignment(Pos.BASELINE_LEFT);
@@ -508,14 +531,135 @@ public class OwnerView {
 			}
 
 		});
+		// -------------------------------------TicketTable-----------------------------------------
+
+		TableColumn ticketCol = new TableColumn("Ticket");
+
+		TableColumn ticketNameCol = new TableColumn("Ticket Name");
+		ticketNameCol.setMinWidth(20);
+		ticketNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		TableColumn ticketDateCol = new TableColumn("Ticket Date");
+		ticketDateCol.setMinWidth(20);
+		ticketDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+		TableColumn ticketPriceCol = new TableColumn("Ticket Price");
+		ticketPriceCol.setMinWidth(20);
+		ticketPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+		ticketCol.getColumns().addAll(ticketNameCol, ticketDateCol, ticketPriceCol);
+
+		t2.getColumns().addAll(ticketCol);
+		t2.setItems(data2);
+
+		// -------------------------------------WineTable----------------------------------------
+		TableColumn wineCol = new TableColumn("Wine");
+
+		TableColumn wineNameCol = new TableColumn("Wine Name");
+		wineNameCol.setMinWidth(20);
+		wineNameCol.setCellValueFactory(new PropertyValueFactory<>("wineName"));
+
+		TableColumn wineTypeCol = new TableColumn("Wine Type");
+		wineTypeCol.setMinWidth(50);
+		wineTypeCol.setCellValueFactory(new PropertyValueFactory<>("wineType"));
+
+		TableColumn wineRegionCol = new TableColumn("Region");
+		wineRegionCol.setMinWidth(20);
+		wineRegionCol.setCellValueFactory(new PropertyValueFactory<>("region"));
+
+		TableColumn wineApCol = new TableColumn("Alcohol Percentage");
+		wineApCol.setMaxWidth(150);
+		wineApCol.setCellValueFactory(new PropertyValueFactory<>("alcoholPercentage"));
+
+		TableColumn winePriceCol = new TableColumn("Wine Price");
+		winePriceCol.setMaxWidth(150);
+		winePriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+		wineCol.getColumns().addAll(wineNameCol, wineTypeCol, wineRegionCol, wineApCol, winePriceCol);
+
+		t3.getColumns().addAll(wineCol);
+		t3.setMinWidth(450);
+		t3.setItems(data3);
+
+		HBox wineTicketTable = new HBox();
+		wineTicketTable.setSpacing(20);
+		wineTicketTable.getChildren().addAll(t2, t3);
+		wineTicketTable.setMaxHeight(350);
+
+		// --------------------------------------ManagerTable-------------------------------------------------
+
+		TableColumn managerCol = new TableColumn("Manager");
+
+		TableColumn nameCol = new TableColumn("Name");
+		TableColumn addressCol = new TableColumn("Address");
+
+		TableColumn firstNameCol = new TableColumn("First Name");
+		firstNameCol.setMinWidth(20);
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+
+		TableColumn lastNameCol = new TableColumn("Last Name");
+		lastNameCol.setMinWidth(20);
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+
+		TableColumn stNumberCol = new TableColumn("Street Number");
+		stNumberCol.setMinWidth(20);
+		stNumberCol.setCellValueFactory(new PropertyValueFactory<>("stNum"));
+
+		TableColumn streetNameCol = new TableColumn("Street Name");
+		streetNameCol.setMinWidth(50);
+		streetNameCol.setCellValueFactory(new PropertyValueFactory<>("stName"));
+
+		TableColumn cityCol = new TableColumn("City");
+		cityCol.setMinWidth(50);
+		cityCol.setCellValueFactory(new PropertyValueFactory<>("city"));
+
+		TableColumn stateCol = new TableColumn("State");
+		stateCol.setMinWidth(50);
+		stateCol.setCellValueFactory(new PropertyValueFactory<>("state"));
+
+		TableColumn zipCodeCol = new TableColumn("Zip Code");
+		zipCodeCol.setMinWidth(50);
+		zipCodeCol.setCellValueFactory(new PropertyValueFactory<>("zip"));
+
+		TableColumn phoneCol = new TableColumn("Phone");
+		phoneCol.setMinWidth(50);
+		phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+		TableColumn payCol = new TableColumn("Salary");
+		payCol.setMinWidth(50);
+		payCol.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+		TableColumn dsCol = new TableColumn("Date Start");
+		dsCol.setMinWidth(50);
+		dsCol.setCellValueFactory(new PropertyValueFactory<>("shiftStart"));
+
+		nameCol.getColumns().addAll(firstNameCol, lastNameCol);
+		addressCol.getColumns().addAll(stNumberCol, streetNameCol, cityCol, stateCol, zipCodeCol);
+		managerCol.getColumns().addAll(nameCol, addressCol, phoneCol, payCol, dsCol);
+
+		t1.getColumns().addAll(managerCol);
+
+		t1.setItems(data);
+
+		// firstNameCol.setSortType(TableColumn.SortType.DESCENDING);
+		// lastNameCol.setSortable(false);
+
+		VBox table = new VBox();
+		table.setSpacing(5);
+		table.setPadding(new Insets(20, 0, 0, 10));
+		table.getChildren().addAll(t1, wineTicketTable);
+
+		// -------------------------------------EndTable-----------------------------------------------
 
 		pane = new HBox(30);
 
-		pane.getChildren().addAll(leftPane, rightPane, right2Pane, right3Pane, right4Pane);
-		stage.setScene(new Scene(pane, 800, 800));
+		pane.getChildren().addAll(leftPane, rightPane, right2Pane, right3Pane, right4Pane, table);
+		stage.setScene(new Scene(pane, 1800, 800));
 		stage.setTitle("Owner's View");
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 		stage.show();
-
 	}
 
 	public void setManagerBtnListener(ManagerEventListener managerBtnListener) {
@@ -591,11 +735,6 @@ public class OwnerView {
 	public void setManagerPay(String pay) {
 		outManagerPayField.clear();
 		outManagerPayField.setText(pay);
-	}
-
-	public void setManagerEnd(String end) {
-		outManagerEndField.clear();
-		outManagerEndField.setText(end);
 	}
 
 	public String getName() {

@@ -9,15 +9,15 @@ public class Wine implements Serializable {
 	private String wineType;
 	private String region;
 	private int alcoholPercentage;
-	private double price;
+	private double winePrice;
 
-	public Wine(String wineName, String wineType, String region, int alcoholPercentage, double price) {
+	public Wine(String wineName, String wineType, String region, int alcoholPercentage, double winePrice) {
 		super();
 		this.wineName = wineName;
 		this.wineType = wineType;
 		this.region = region;
 		this.alcoholPercentage = alcoholPercentage;
-		this.price = price;
+		this.winePrice = winePrice;
 	}
 
 	public Wine() {
@@ -57,17 +57,17 @@ public class Wine implements Serializable {
 	}
 
 	public double getPrice() {
-		return price;
+		return winePrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPrice(double winePrice) {
+		this.winePrice = winePrice;
 	}
 
 	@Override
 	public String toString() {
 		return "Wine [wineName=" + wineName + ", wineType=" + wineType + ", region=" + region + ", alcoholPercentage="
-				+ alcoholPercentage + ", price=" + price + "]";
+				+ alcoholPercentage + ", price=" + winePrice + "]";
 	}
 
 }

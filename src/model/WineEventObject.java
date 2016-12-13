@@ -9,20 +9,20 @@ public class WineEventObject extends EventObject {
 	private String wineType;
 	private String region;
 	private int alcoholPercentage;
-	private double price;
+	private double winePrice;
 
 	public WineEventObject(Object source) {
 		super(source);
 	}
 
 	public WineEventObject(Object source, String wineName, String wineType, String region, int alcoholPercentage,
-			double price) {
+			double winePrice) {
 		super(source);
 		this.wineName = wineName;
 		this.wineType = wineType;
 		this.region = region;
 		this.alcoholPercentage = alcoholPercentage;
-		this.price = price;
+		this.winePrice = winePrice;
 
 	}
 
@@ -43,7 +43,7 @@ public class WineEventObject extends EventObject {
 	}
 
 	public double getPrice() {
-		return price;
+		return winePrice;
 	}
 
 }

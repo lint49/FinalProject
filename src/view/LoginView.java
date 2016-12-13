@@ -5,6 +5,7 @@ import controllers.TicketController;
 import controllers.WineController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Manager;
 import model.Ticket;
@@ -102,6 +104,10 @@ public class LoginView {
 		stage.setTitle("Night Club Login");
 		stage.setScene(new Scene(pane, 300, 230));
 		stage.show();
+		
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 
 	}
 

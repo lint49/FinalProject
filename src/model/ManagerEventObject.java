@@ -15,7 +15,6 @@ public class ManagerEventObject extends EventObject {
 	private String phone;
 	private String salary;
 	private String shiftStart;
-	private String shiftEnd;
 
 	public ManagerEventObject(Object source) {
 		super(source);
@@ -23,7 +22,7 @@ public class ManagerEventObject extends EventObject {
 	}
 
 	public ManagerEventObject(Object source, String firstName, String lastName, String stNum, String stName,
-			String city, String state, String zip, String phone, String salary, String shiftStart, String shiftEnd) {
+			String city, String state, String zip, String phone, String salary, String shiftStart) {
 		super(source);
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -35,7 +34,6 @@ public class ManagerEventObject extends EventObject {
 		this.phone = phone;
 		this.salary = salary;
 		this.shiftStart = shiftStart;
-		this.shiftEnd = shiftEnd;
 	}
 
 	public String getFirstName() {
@@ -78,8 +76,5 @@ public class ManagerEventObject extends EventObject {
 		return shiftStart;
 	}
 
-	public String getShiftEnd() {
-		return shiftEnd;
-	}
 
 }

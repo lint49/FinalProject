@@ -26,7 +26,6 @@ public class ManagerController {
 				model.setPhone(ev.getPhone());
 				model.setSalary(ev.getSalary());
 				model.setShiftStart(ev.getShiftStart());
-				model.setShiftEnd(ev.getShiftEnd());
 
 				System.out.println(model);
 
@@ -53,7 +52,6 @@ public class ManagerController {
 				view.setManagerPhone(model.getPhone());
 				view.setManagerPay(model.getSalary());
 				view.setManagerStart(model.getShiftStart());
-				view.setManagerEnd(model.getShiftEnd());
 
 			}
 
