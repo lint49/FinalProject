@@ -3,6 +3,7 @@ package view;
 import controllers.ManagerController;
 import controllers.TicketController;
 import controllers.WineController;
+import controllers.WorkerController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 import model.Manager;
 import model.Ticket;
 import model.Wine;
+import model.Worker;
 
 public class LoginView {
 
@@ -33,6 +35,7 @@ public class LoginView {
 	private Label error;
 	private OwnerView ownerView;
 	private ManagerView managerView;
+	private CustomerView customerView;
 
 	public LoginView(Stage stage) {
 
@@ -81,10 +84,13 @@ public class LoginView {
 			} else if (userNameText.getText().equals("manager") && passwordText.getText().equals("2")) {
 
 				managerView = new ManagerView(stage);
+				
+				Worker model = new Worker();
+				WorkerController controller4 = new WorkerController(model, managerView);
 
 			} else if (userNameText.getText().equals("customer") && passwordText.getText().equals("3")) {
 
-				System.out.println("pass");
+				customerView = new CustomerView(stage);
 
 			} else {
 				error.setTextFill(Color.web("#ff0000"));

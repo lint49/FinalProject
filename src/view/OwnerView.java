@@ -215,7 +215,7 @@ public class OwnerView {
 					ticketNameField.setText(result.get());
 				}
 			}
-			
+
 			String name = ticketNameField.getText();
 			String date = ticketDatePicker.getValue().toString();
 			double price = Double.parseDouble(ticketPriceField.getText());
@@ -248,7 +248,7 @@ public class OwnerView {
 		winetPriceField = new TextField();
 
 		wineTypes = new ComboBox<>();
-		wineTypes.getItems().addAll("", "RIESLING", "CHARDONNAY", "SYRAH", "MERLOT", "PINOT NOIR");
+		wineTypes.getItems().addAll("", "CHARDONNAY", "MERLOT", "PINOT NOIR", "RIESLING", "SYRAH");
 
 		wines = new ComboBox<>();
 
@@ -390,15 +390,29 @@ public class OwnerView {
 				}
 			}
 
-			if (managerPhoneField == null || managerPhoneField.getText().trim().isEmpty()) {
+			if (managerPhoneField == null || managerPhoneField.getText().trim().isEmpty()
+					|| managerPhoneField.getText().length() != 10) {
 				TextInputDialog dialog = new TextInputDialog("Phone");
 				dialog.setTitle("Text Input Dialog");
-				dialog.setHeaderText("Phone field Is Empty");
+				dialog.setHeaderText("Phone field Is Empty or It's not 10 digits");
 				dialog.setContentText("Please enter the phone number: ");
 
 				Optional<String> result = dialog.showAndWait();
 				if (result.isPresent()) {
 					managerPhoneField.setText(result.get());
+				}
+			}
+
+			if (managerZipField == null || managerZipField.getText().trim().isEmpty()
+					|| managerZipField.getText().length() != 5) {
+				TextInputDialog dialog = new TextInputDialog("Zip");
+				dialog.setTitle("Text Input Dialog");
+				dialog.setHeaderText("Zip field Is Empty or It's not 5 digits");
+				dialog.setContentText("Please enter the right zip code: ");
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					managerZipField.setText(result.get());
 				}
 			}
 
@@ -556,11 +570,11 @@ public class OwnerView {
 		TableColumn wineCol = new TableColumn("Wine");
 
 		TableColumn wineNameCol = new TableColumn("Wine Name");
-		wineNameCol.setMinWidth(20);
+		wineNameCol.setMinWidth(50);
 		wineNameCol.setCellValueFactory(new PropertyValueFactory<>("wineName"));
 
 		TableColumn wineTypeCol = new TableColumn("Wine Type");
-		wineTypeCol.setMinWidth(50);
+		wineTypeCol.setMinWidth(110);
 		wineTypeCol.setCellValueFactory(new PropertyValueFactory<>("wineType"));
 
 		TableColumn wineRegionCol = new TableColumn("Region");
@@ -606,7 +620,7 @@ public class OwnerView {
 		stNumberCol.setCellValueFactory(new PropertyValueFactory<>("stNum"));
 
 		TableColumn streetNameCol = new TableColumn("Street Name");
-		streetNameCol.setMinWidth(50);
+		streetNameCol.setMinWidth(80);
 		streetNameCol.setCellValueFactory(new PropertyValueFactory<>("stName"));
 
 		TableColumn cityCol = new TableColumn("City");

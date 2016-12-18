@@ -2,18 +2,21 @@ package model;
 
 public class Worker extends People {
 
+	private static final long serialVersionUID = 1L;
 	private String title;
 	private double workerPay;
-	private String shiftStart;
-	private String shiftEnd;
+	private String dateStart;
 
 	public Worker(String firstName, String lastName, String stNum, String stName, String city, String state, String zip,
-			String phone, String title, double workerPay, String shiftStart, String shiftEnd) {
+			String phone, String title, double workerPay, String dateStart) {
 		super(firstName, lastName, stNum, stName, city, state, zip, phone);
 		this.title = title;
 		this.workerPay = workerPay;
-		this.shiftStart = shiftStart;
-		this.shiftEnd = shiftEnd;
+		this.dateStart = dateStart;
+	}
+
+	public Worker() {
+
 	}
 
 	public String getTitle() {
@@ -32,26 +35,17 @@ public class Worker extends People {
 		this.workerPay = workerPay;
 	}
 
-	public String getShiftStart() {
-		return shiftStart;
+	public String getDateStart() {
+		return dateStart;
 	}
 
-	public void setShiftStart(String shiftStart) {
-		this.shiftStart = shiftStart;
-	}
-
-	public String getShiftEnd() {
-		return shiftEnd;
-	}
-
-	public void setShiftEnd(String shiftEnd) {
-		this.shiftEnd = shiftEnd;
+	public void setDateStart(String dateStart) {
+		this.dateStart = dateStart;
 	}
 
 	@Override
 	public String toString() {
-		return "Worker [title=" + title + ", workerPay=" + workerPay + ", shiftStart=" + shiftStart + ", shiftEnd="
-				+ shiftEnd + "]";
+		return "Worker [title=" + title + ", workerPay=" + workerPay + ", dateStart=" + dateStart + "]";
 	}
 
 }
