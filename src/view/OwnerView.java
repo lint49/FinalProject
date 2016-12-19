@@ -16,6 +16,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
@@ -664,9 +670,12 @@ public class OwnerView {
 		table.getChildren().addAll(t1, wineTicketTable);
 
 		// -------------------------------------EndTable-----------------------------------------------
+		esc.setStyle("-fx-font: 20 arial; -fx-base: #ff4d4d;");
+		BackgroundImage myBI = new BackgroundImage(new Image("file:src/background.png", 65, 65, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
 
 		pane = new HBox(30);
-
+		pane.setBackground(new Background(myBI));
 		pane.getChildren().addAll(leftPane, rightPane, right2Pane, right3Pane, right4Pane, table);
 		stage.setScene(new Scene(pane, 1800, 800));
 		stage.setTitle("Owner's View");

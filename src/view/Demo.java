@@ -13,10 +13,8 @@ public class Demo extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		// LoginView view = new LoginView(primaryStage);
-		// OwnerView view = new OwnerView(primaryStage);
-		// ManagerView view3 = new ManagerView(primaryStage);
-		 CustomerView view3 = new CustomerView(primaryStage);
+		 LoginView view = new LoginView(primaryStage);
+		 
 	}
 
 }

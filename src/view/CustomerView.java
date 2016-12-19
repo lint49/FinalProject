@@ -12,8 +12,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -44,6 +50,7 @@ public class CustomerView {
 		total.setFont(new Font("Arial", 15));
 
 		Label lb = new Label("Price Estimator");
+		lb.setTextFill(Color.web("#809fff"));
 		lb.setFont(new Font("Arial", 30));
 
 		CheckBox b1 = new CheckBox("Beer -- $2.50");
@@ -119,6 +126,8 @@ public class CustomerView {
 		esc.setOnAction(event -> {
 			login = new LoginView(stage);
 		});
+		
+		esc.setStyle("-fx-font: 20 arial; -fx-base: #ff4d4d;");
 
 		final ImageView selectedImage1 = new ImageView();
 		Image image1 = new Image("file:src/ae.png", 40, 40, true, true);
@@ -141,6 +150,7 @@ public class CustomerView {
 		selectedImage5.setImage(image5);
 
 		cards = new Label("(All Major Cards Accepted)");
+		cards.setTextFill(Color.web("#b3b3b3"));
 		pane2.setMargin(cards, new Insets(0, 0, 0, 95));
 
 		pane = new VBox(10);
@@ -150,14 +160,14 @@ public class CustomerView {
 		Label nightClub = new Label("Night\nClub");
 
 		pane2.setMargin(nightClub, new Insets(50, 0, 0, 95));
-		
 
 		pane2 = new VBox(10);
 
 		Label phoneLabel = new Label("(000)-000-0000 for any questions");
-		phonePane.setMargin(phoneLabel, new Insets(20, 0, 0, 0));
+		phoneLabel.setTextFill(Color.web("#b3b3b3"));
+		phonePane.setMargin(phoneLabel, new Insets(13, 0, 0, 0));
 		phonePane.setMargin(selectedImage5, new Insets(0, 0, 0, 50));
-		
+
 		phonePane = new HBox(5);
 		phonePane.getChildren().addAll(selectedImage5, phoneLabel);
 
@@ -168,11 +178,16 @@ public class CustomerView {
 		pane2.getChildren().addAll(nightClub, phonePane, cardPane, cards);
 
 		nightClub.setStyle("-fx-font-family: Courgette; -fx-font-size: 80;");
+		nightClub.setTextFill(Color.web("#809fff"));
 
 		pane2.getStylesheets().add("http://fonts.googleapis.com/css?family=Courgette");
 
+		BackgroundImage myBI = new BackgroundImage(new Image("file:src/background.png", 65, 65, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+
 		mainPane = new HBox(10);
 		mainPane.getChildren().addAll(pane2, pane);
+		mainPane.setBackground(new Background(myBI));
 		stage.setScene(new Scene(mainPane, 800, 600));
 		stage.setTitle("Customer's View");
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();

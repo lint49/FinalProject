@@ -12,6 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,13 +35,16 @@ public class LoginView {
 	private TextField userNameText;
 	private PasswordField passwordText;
 	private Button loginButton;
+	private Button registerBtn;
 	private HBox topPane;
 	private HBox bottomPane;
+	private HBox loginRegPane;
 	private VBox pane;
 	private Label error;
 	private OwnerView ownerView;
 	private ManagerView managerView;
 	private CustomerView customerView;
+	private RegisterView registerView;
 
 	public LoginView(Stage stage) {
 
@@ -46,14 +55,18 @@ public class LoginView {
 		password.setAlignment(Pos.CENTER_LEFT);
 
 		loginButton = new Button("Login");
+		registerBtn = new Button("Register");
 
 		userNameText = new TextField();
 		passwordText = new PasswordField();
 
 		topPane = new HBox(5);
 		bottomPane = new HBox(5);
+		loginRegPane = new HBox(10);
+		
+		loginRegPane.setAlignment(Pos.BASELINE_CENTER);
+		loginRegPane.getChildren().addAll(loginButton, registerBtn);
 
-		HBox.setMargin(userName, new Insets(30, 0, 0, 0));
 		topPane.setAlignment(Pos.BASELINE_CENTER);
 		topPane.getChildren().addAll(userName, userNameText);
 
@@ -101,14 +114,31 @@ public class LoginView {
 			passwordText.setText("");
 
 		});
+		
+		registerBtn.setOnAction(event -> {
+			
+			registerView = new RegisterView(stage);
+					
+		});
+
+		registerBtn.setStyle("-fx-font: 12 arial; -fx-base: #66c2ff;");
 
 		error = new Label("");
 
+		BackgroundImage myBI = new BackgroundImage(new Image("file:src/background.png", 65, 65, false, true),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+		
+		Label welcome = new Label("Welcome");
+		welcome.setTextFill(Color.web("#809fff"));
+		welcome.setStyle("-fx-font-family: Courgette; -fx-font-size: 50;");
+		
 		pane = new VBox(30);
+		pane.getStylesheets().add("http://fonts.googleapis.com/css?family=Courgette");
+		pane.setBackground(new Background(myBI));
 		pane.setAlignment(Pos.BASELINE_CENTER);
-		pane.getChildren().addAll(topPane, bottomPane, loginButton, error);
+		pane.getChildren().addAll(welcome,topPane, bottomPane, loginRegPane, error);
 		stage.setTitle("Night Club Login");
-		stage.setScene(new Scene(pane, 300, 230));
+		stage.setScene(new Scene(pane, 330, 300));
 		stage.show();
 		
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
