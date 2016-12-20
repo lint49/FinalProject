@@ -68,6 +68,9 @@ public class CustomerView {
 		t4.setPromptText("Enter Quantity- Max=6");
 
 		calBtn = new Button("Calculate");
+		
+		calBtn.setStyle("-fx-font: 15 arial; -fx-base: #00e600;");
+		
 		calBtn.setOnAction(event -> {
 
 			if (b1.isSelected() && t1.getText().trim().isEmpty()) {
@@ -126,7 +129,7 @@ public class CustomerView {
 		esc.setOnAction(event -> {
 			login = new LoginView(stage);
 		});
-		
+
 		esc.setStyle("-fx-font: 20 arial; -fx-base: #ff4d4d;");
 
 		final ImageView selectedImage1 = new ImageView();
@@ -149,8 +152,12 @@ public class CustomerView {
 		Image image5 = new Image("file:src/phone.png", 40, 40, true, true);
 		selectedImage5.setImage(image5);
 
+		final ImageView selectedImage6 = new ImageView();
+		Image image6 = new Image("file:src/guy.gif", 90, 90, true, true);
+		selectedImage6.setImage(image6);
+
 		cards = new Label("(All Major Cards Accepted)");
-		cards.setTextFill(Color.web("#b3b3b3"));
+		cards.setTextFill(Color.web("#808080"));
 		pane2.setMargin(cards, new Insets(0, 0, 0, 95));
 
 		pane = new VBox(10);
@@ -158,13 +165,18 @@ public class CustomerView {
 		pane.setPadding(new Insets(50, 50, 50, 100));
 
 		Label nightClub = new Label("Night\nClub");
+		
+		HBox title = new HBox(10);
+		
+		title.getChildren().addAll(nightClub, selectedImage6);
 
-		pane2.setMargin(nightClub, new Insets(50, 0, 0, 95));
+		title.setMargin(nightClub, new Insets(50, 0, 0, 95));
+		title.setMargin(selectedImage6, new Insets(160, 0, 0, -50));
 
 		pane2 = new VBox(10);
 
-		Label phoneLabel = new Label("(000)-000-0000 for any questions");
-		phoneLabel.setTextFill(Color.web("#b3b3b3"));
+		Label phoneLabel = new Label("  (000)-000-0000 for any questions\n\t\t& special events");
+		phoneLabel.setTextFill(Color.web("#808080"));
 		phonePane.setMargin(phoneLabel, new Insets(13, 0, 0, 0));
 		phonePane.setMargin(selectedImage5, new Insets(0, 0, 0, 50));
 
@@ -175,7 +187,7 @@ public class CustomerView {
 		cardPane.getChildren().addAll(selectedImage1, selectedImage2, selectedImage3, selectedImage4);
 		cardPane.setPadding(new Insets(20, 0, 0, 80));
 
-		pane2.getChildren().addAll(nightClub, phonePane, cardPane, cards);
+		pane2.getChildren().addAll(title, phonePane, cardPane, cards);
 
 		nightClub.setStyle("-fx-font-family: Courgette; -fx-font-size: 80;");
 		nightClub.setTextFill(Color.web("#809fff"));

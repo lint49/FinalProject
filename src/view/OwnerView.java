@@ -160,10 +160,10 @@ public class OwnerView {
 
 	private final ObservableList<Manager> data = FXCollections.observableArrayList(
 
-			new Manager("John", "Doe", "100", "Main St", "Brendwood", "New York", "11221", "6311236666", "100000",
+			new Manager("AAA", "BBB", "100", "Main St", "SSSS", "New York", "11221", "6311236666", "100000",
 					"2010-12-12"),
 
-			new Manager("Jane", "Doe", "100", "Main St", "Brendwood", "New York", "11221", "6311238888", "100000",
+			new Manager("CCC", "DDD", "100", "Main St", "SSSS", "New York", "11221", "6311238888", "100000",
 					"2010-12-12")
 
 	);
